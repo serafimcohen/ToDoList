@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.Pages.CreateOrEditTaskPage"
+             Shell.NavBarIsVisible="false">
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Title:" 
+             HorizontalOptions="Start"
+             VerticalOptions="Center"
+             FontSize="20"/>
+        <Entry x:Name="EntryTitle"
+             Placeholder="Enter Title"
+             MaxLength="50"
+             FontSize="18"/>
+        <Label Text="Description:" 
+             HorizontalOptions="Start"
+             VerticalOptions="Center"
+             FontSize="20"/>
+        <Editor x:Name="EditorDescription"
+             Placeholder="Enter Description"
+             HeightRequest="250"
+             MaxLength="1000"
+             FontSize="18" />
+        <Button
+             x:Name="SaveBtn"
+             Text="Save" 
+             Clicked="BtnSave_OnClicked"
+             HorizontalOptions="Fill"
+             VerticalOptions="Center"  />
+    </VerticalStackLayout>
+</ContentPage>
