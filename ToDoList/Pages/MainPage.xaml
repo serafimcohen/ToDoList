@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pageModels="clr-namespace:ToDoList.PageModels"  
+             xmlns:models="clr-namespace:ToDoList.Models"  
              x:Class="ToDoList.Pages.MainPage"
              Shell.NavBarIsVisible="false">
 
+    <ContentPage.BindingContext>
+        <pageModels:MainPageModel/>
+    </ContentPage.BindingContext>
+    
     <Grid Padding="20" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,11 +31,14 @@
              x:Name="AddTaskBtn"
              Text="Add task" 
              SemanticProperties.Hint="Counts the number of times you click"
-             Clicked="BtnAddTask_OnClicked"
+             Command="{Binding OpenCreateTaskPage}"
              HorizontalOptions="Fill"
              VerticalOptions="Center"  />
 
-        <CollectionView Grid.Row="2" x:Name="tasksCollectionView" ItemsSource="{Binding Tasks}">
+        <CollectionView 
+            Grid.Row="2" 
+            x:Name="tasksCollectionView" 
+            ItemsSource="{Binding Tasks}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ContentView>
@@ -68,7 +78,8 @@
                                     WidthRequest="26"
                                     HeightRequest="26"
                                     Source="ic_edit"
-                                    Clicked="BtnEdit_OnClicked">
+                                    Command="{Binding BindingContext.OpenEditTaskPage, Source={x:Reference tasksCollectionView}, x:DataType=MainPageModel}"
+                                    CommandParameter="{Binding .}">
                                     <ImageButton.Triggers>
                                         <Trigger TargetType="ImageButton"
                                              Property="IsPressed"
@@ -89,7 +100,8 @@
                                     WidthRequest="30"
                                     HeightRequest="30"
                                     Source="ic_close"
-                                    Clicked="BtnDelete_OnClicked">
+                                    Command="{Binding BindingContext.DeleteTask, Source={x:Reference tasksCollectionView}, x:DataType=MainPageModel}"
+                                    CommandParameter="{Binding .}">
                                     <ImageButton.Triggers>
                                         <Trigger TargetType="ImageButton"
                                              Property="IsPressed"
@@ -103,16 +115,22 @@
                                         </Trigger>
                                     </ImageButton.Triggers>
                                 </ImageButton>
-                                <CheckBox 
+                                <CheckBox
                                     Grid.Column="3" 
                                     Grid.RowSpan="2"
                                     IsChecked="{Binding IsCompleted, Mode=TwoWay}" 
-                                    CheckedChanged="CheckBox_CheckedChanged"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center"
                                     WidthRequest="30"
                                     HeightRequest="30"
-                                    Color="White"/>
+                                    Color="White">
+                                    <CheckBox.Behaviors>
+                                        <toolkit:EventToCommandBehavior
+                                        EventName="CheckedChanged"
+                                        Command="{Binding BindingContext.UpdateTaskIsCompleted, Source={x:Reference tasksCollectionView}, x:DataType=MainPageModel}"
+                                        CommandParameter="{Binding .}"/>
+                                    </CheckBox.Behaviors>
+                                </CheckBox>
                             </Grid>
                         </Border>
                     </ContentView>

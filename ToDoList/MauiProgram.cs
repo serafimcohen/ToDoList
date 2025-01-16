@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Fonts;
 using Microsoft.Extensions.Logging;
+using ToDoList.PageModels;
 
 namespace ToDoList
 {
@@ -18,10 +19,10 @@ namespace ToDoList
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             
-#if DEBUG
             builder.Logging.AddDebug();
             builder.Services.AddSingleton<Data.DatabaseHandler>();
-#endif
+            builder.Services.AddSingleton<MainPageModel>();
+            builder.Services.AddSingleton<CreateOrEditTaskPageModel>();
 
             return builder.Build();
         }

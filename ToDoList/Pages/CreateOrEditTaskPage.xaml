@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pageModels="clr-namespace:ToDoList.PageModels"  
              x:Class="ToDoList.Pages.CreateOrEditTaskPage"
              Shell.NavBarIsVisible="false">
+
+    <ContentPage.BindingContext>
+        <pageModels:CreateOrEditTaskPageModel/>
+    </ContentPage.BindingContext>
+
     <VerticalStackLayout Padding="20" Spacing="10">
         <Label Text="Title:" 
+
              HorizontalOptions="Start"
              VerticalOptions="Center"
              FontSize="20"/>
         <Entry x:Name="EntryTitle"
              Placeholder="Enter Title"
+             Text="{Binding Title, Mode=TwoWay}" 
              MaxLength="50"
              FontSize="18"/>
         <Label Text="Description:" 
@@ -18,13 +27,14 @@
              FontSize="20"/>
         <Editor x:Name="EditorDescription"
              Placeholder="Enter Description"
+             Text="{Binding Description, Mode=TwoWay}" 
              HeightRequest="250"
              MaxLength="1000"
              FontSize="18" />
         <Button
              x:Name="SaveBtn"
              Text="Save" 
-             Clicked="BtnSave_OnClicked"
+             Command="{Binding SaveTask}"
              HorizontalOptions="Fill"
              VerticalOptions="Center"  />
     </VerticalStackLayout>
